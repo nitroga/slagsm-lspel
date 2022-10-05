@@ -1,34 +1,64 @@
-﻿Fighter FighterZero = new Fighter();
-Fighter FighterOne = new Fighter();
+﻿// UPPGIFT :)
 
-FighterZero.name = "FighterZero";
-FighterZero.weapon = new Weapon();
-FighterZero.weapon.name = "Void Sword";
+Fighter Player = new Fighter();
+Fighter Enemy = new Fighter();
 
-FighterOne.name = "FighterOne";
-FighterOne.weapon = new Weapon();
-FighterOne.weapon.name = "Light Blade";
+Random rnd = new Random();
+
+var list = new List<string>{"Bob", "Steve", "Jeff"};
+
+Player.name = "Player";
+Player.weapon = new Weapon();
+Player.weapon.name = "Void Sword";
+
+Enemy.name = list[rnd.Next(3)];
+Enemy.weapon = new Weapon();
+Enemy.weapon.name = "Light Blade";
 
 int r = 0;
 
-Console.WriteLine($"{FighterZero.name} vs {FighterOne.name}");
-while (FighterZero.hp > 0 && FighterOne.hp > 0) {
+Console.WriteLine($"{Player.name} vs {Enemy.name}");
+Console.WriteLine("Press any button to start");
+Console.ReadKey();
+while (Player.hp > 0 && Enemy.hp > 0) {
     Console.WriteLine("\nRound " + r);
-    Console.WriteLine($"{FighterZero.name}: {FighterZero.hp} hp\n{FighterOne.name}: {FighterOne.hp} hp\n");
+    Console.WriteLine($"{Player.name}: {Player.hp} hp\n{Enemy.name}: {Enemy.hp} hp\n");
     r++;
 
-    FighterZero.Attack(FighterOne);
-    FighterOne.Attack(FighterZero);
+    Console.WriteLine("What would you like to do?\n(Type appropiate number and press Enter)\n");
+    Console.WriteLine("(1) Attack\n(2) Heal");
+    string? choice = Console.ReadLine();
+    Console.Clear();
+    if (choice == "1") {
+        Console.WriteLine("You chose to attack");
+        Player.Attack(Enemy);
+    }
+    else if (choice == "2") {
+        Console.WriteLine("You chose to heal yourself");
+        Player.Heal();
+    }
+    else {
+        Console.WriteLine("You chose to do nothing\nThe AI play for you");
+        int AIchoice = rnd.Next(2);
+        if (AIchoice == 0) {
+            Player.Attack(Enemy);
+        }
+        else if (AIchoice == 1) {
+
+            Player.Heal();
+        }
+    }
+    Enemy.Attack(Player);
 }
 Console.WriteLine("\nFight: Over\n");
-if (FighterZero.hp == 0 && FighterOne.hp == 0) {
+if (Player.hp == 0 && Enemy.hp == 0) {
     Console.WriteLine("It's a draw!");
 }
-else if (FighterZero.hp == 0) {
-    Console.WriteLine($"FighterOne won with {FighterOne.hp} hp left"); 
+else if (Player.hp == 0) {
+    Console.WriteLine($"Enemy won with {Enemy.hp} hp left"); 
 }
 else {
-    Console.WriteLine($"FighterZero won with {FighterZero.hp} hp left"); 
+    Console.WriteLine($"Player won with {Player.hp} hp left"); 
 }
 
 Console.WriteLine("Press any key to quit");
